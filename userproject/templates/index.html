@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/css.css' %}" />
+
+<style>
+    /* body{
+        background-image: url(https://assets.nicepagecdn.com/d2cc3eaa/50595/images/modern-apartment-with-comfortable-a-min.jpg);
+
+        background-size: cover;
+    } */
+    h1{
+        color: azure;
+        border-color: black;
+        font-family: 'Times New Roman', Times, serif;
+    }
+</style>
+
+<body><br>
+    
+    <div class="container" style="background-size: cover; background-image: url(https://assets.nicepagecdn.com/d2cc3eaa/50595/images/modern-apartment-with-comfortable-a-min.jpg); background-size: cover; height:750px; width: 2500px;">
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <br><br><br>
+                
+                        <center> <h1>Create your Virtual Space</h1></center>
+                        <center> <h1>And</h1></center>
+                        <center> <h1>Discuss About your Thoughts</h1></center>
+
+                </div>
+            </div>
+      
+    </div>
+
+
+</body>
+
+{% endblock %}

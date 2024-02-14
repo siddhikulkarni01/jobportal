@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load tz %}
+    
+        <!-- Display search results or other content here -->
+       
+        {% if liked_posts %}
+      <main class="sp">
+          <section class="sp">
+              <div class="container">
+                  <h1 class="sec-title"> Displaying Liked Post </h1>
+                  <div class="grid-3">
+                      {% for blog in liked_posts %}
+                          <a href="{% url 'userapp:blogdetails' blog.id %}">
+                              <div class="card">
+                                  <div class="post-img">
+                                      {% if blog.image %}
+                                          <img src="{{blog.image.url}}" alt="" />
+                                      {% else %}
+                                          <h1>No image to display</h1>
+                                      {% endif %}
+                                      <div class="tag">{{blog.author_name}}</div>
+                                  </div>
+                                  <div class="card-content">
+                                      <h3>{{blog.post_title}}</h3>
+                                      <div class="author">
+                                          <div class="profile-pic">
+                                              {% if blog.author_name.userdetails.user_img %}
+                                                  <img src="{{blog.author_name.userdetails.user_img.url}}" style="height: 100%;" alt="" />
+                                              {% endif %}
+                                          </div>
+                                          <div class="details">
+                                              <p>{{blog.author_name.first_name}}</p>
+                                              <small>{{ blog.time|timezone:blog.time_zone|date:"F j, Y H:i" }}</small>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </a>
+                      {% endfor %}
+                  </div>
+              </div>
+          </section>
+  
+      </main>
+  
+  
+    
+  {% else %}
+  <br>
+  <center><h1>You Have Not Liked Any Post Yet</h1></center>
+  {% endif %}
+  
+{% endblock %}

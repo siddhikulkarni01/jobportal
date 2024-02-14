@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <br>
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card card-body">
+                        <h2>{{ details.job_title }}</h2><hr>
+                        <p>Company: {{ details.company }}</p>
+                        <p>Posted on: {{ details.posted_on}}</p>
+                        <p><img src="https://cdn-icons-png.flaticon.com/512/17/17736.png" style="height:20px;width:20px;"> {{details.location}} <br>
+                            <img src="https://icons.veryicon.com/png/o/miscellaneous/x/my-salary.png" style="height:20px;width:20px;"> : {{details.salary}} <br>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_g4r7-apf0hG38cZ9T2ggHqkgsrjlCy9q3Gy7FjeuCC83KfU1gkb7L2cfg4KjU5myQ-E&usqp=CAU" style="height:20px;width:20px;"> : {{details.type}}</p>
+                        <hr>
+                        <p> Description <br> {{details.description}}</p><br><br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="{% url 'jobpostdata:apply'  %}" class="btn btn-dark" style="width: 100%;">Apply</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'userapp:home' %}" class="btn btn-primary" style="width: 100%;">Back</a>
+                            </div>
+                        </div>
+
+
+                        <hr>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+{% endblock %}
