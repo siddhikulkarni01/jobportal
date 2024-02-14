@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-body">
+                <img src="https://t4.ftcdn.net/jpg/02/02/78/81/360_F_202788149_9sndfcPPme9zRtstjROSmyLFma2UMYaM.jpg" style="height: 500px;height: 400px;">
+                <h4>Thankyou for Applying!!! Your Data was Received </h4>
+                <a href="{% url 'userapp:home' %}" class="btn btn-primary" style="width:200px;">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html lang="en"><head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/css.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <title>Document</title>
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1071.0" data-gr-ext-installed="">
+    <!-- <header>
+      <div class="container container-fluid">
+        
+        <div class="links">
+          <a href="">Home</a>
+          <a href="">About</a>
+          <a href="">All Post</a>
+          
+        </div>
+        <div class="action-btn">
+            <a href="pages/login.html"
+              ><button class="btn btn-scoundary">Login</button></a
+            >
+            <a href="pages/signup.html">
+              <button class="btn btn-primary">Sign Up</button></a
+            >
+            <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
+          </div>
+      </div>
+    </header> -->
+    <main style="padding-top: 70px;">
+
+
+<main>
+  <div class="container">
+    <div class="page-top">
+      <div class="top flex">
+        <div class="page-name">
+          <h1>All Posts</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<section class="sp">
+  <div class="container">
+    <div class="blog-tags">
+    
+
+    {% for i in blog %}
+    <p class="tag">
+      <a style="color: white;" href="{% url 'userapp:blogdetails' i.id  %}">{{i.post_title}}</a>
+    </p>
+    {% endfor %}
+
+  </div>
+  </div>
+</section>
+
+    </main>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-body">
+                <form action="{% url 'userapp:blogpost' %}" method="POST" enctype="multipart/form-data" class="class-border">
+                    {% csrf_token %}
+                    {{blog.as_p}}
+                    {% if saved %}
+                    <h1>data was saved</h1>
+                    {% endif %}
+                    <button class="btn btn-primary">Add Post</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</form>
+
+
+{% endblock %}

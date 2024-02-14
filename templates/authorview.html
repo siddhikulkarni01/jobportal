@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <p>Author's Name : {{ author_details.user.username }}</p>
+                    <p>Email : {{ author_details.user.email }}</p>
+                    <p>Address : {{ author_details.address }}</p>
+                    <p>LinkedIn : {{ author_details.linkedin }}</p>
+                    <p>Facebook : {{ author_details.facebook }}</p>
+                    <p>Instagram : {{ author_details.instagram }}</p>
+                    <p>Twitter : {{ author_details.twitter }}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <img src="{{ author_details.user_img.url }}" alt="User Image" style="height: 300px;width: 300px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

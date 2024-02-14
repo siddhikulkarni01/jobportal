@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+    <title>Document</title>
+  </head>
+
+  <body>
+  
+    <main class="sp">
+      <div class="container">
+        <center>
+          <h4 class="title">Welcome to VirtualSpace</h4>
+          <div class="typo">
+           
+            <p>
+              Lorem ipsum began as scrambled, nonsensical Latin derived from
+              Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
+            </p>
+          </div>
+          <div class="newsletter" style="h1{color: #000;}">
+            <form action="{% url 'userapp:home' %}" method="POST">
+              {% csrf_token %}
+                  <h1>{{ sub }}</h1>
+              <button type="submit" class="btn btn-warning">Subscribe</button>
+          </form>
+          </div><br>
+          {% if saved %}
+                  <h1>User has subscribed successfully</h1>
+              {% endif %}
+              {% if error_message %}
+                  <h1>{{ error_message }}</h1>
+              {% endif %}
+        </center>
+      </div>
+   
+{% if top_post %}
+<section class="sp">
+  <div class="container">
+    <div class="grid-2">
+      <div class="post-img">
+        {% if top_post.image %}
+          <img src="{{ top_post.image.url }}" alt="Post Image" />
+        {% else %}
+          <h1>No image available</h1>
+        {% endif %}
+      </div>
+      <div class="post-content">
+        <div class="category">
+          <p>Category: {{ top_post.category.name }}</p>
+          <!-- Replace 'category.name' with the actual attribute for the category name -->
+        </div>
+        <h1>{{ top_post.post_title }}</h1>
+        
+        <p class="d-inline-flex gap-1">
+          <h5>{{ top_post.description|linebreaksbr|truncatewords_html:100 }}</h5>
+          <a class="btn btn-primary" href="{% url 'userapp:blogdetails' top_post.id %}">
+            View more
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+    <section class="sp">
+      <div class="container">
+        <h1 class="sec-title">Top blogs</h1>
+        <div class="grid-3">
+          <!-- card -->
+          {% for post in blogposts %}
+          <a href="{% url 'userapp:blogdetails' post.id %}">
+            <div class="card">
+              <div class="post-img">
+                {% if post.image %}
+                <img src="{{post.image.url}}" alt="" />
+                {% else %}
+                <h1>No image to display</h1>
+                {% endif %}
+                <div class="tag">{{post.author_name}}</div>
+              </div>
+              <div class="card-content">
+                <h3>
+                 {{post.post_title}}
+                </h3>
+                <div class="author">
+                  <div class="profile-pic">
+                    {% if post.author_name.userdetails.user_img %}
+                    <img src="{{post.author_name.userdetails.user_img.url}}" style="height: 100%;" alt="" />
+                    {% endif %}
+                  </div>
+                  <div class="details">
+                    <p>{{post.author_name.first_name}}</p>
+                    <small>{{ post.time|timezone:post.time_zone|date:"F j, Y H:i" }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </a>
+          <!-- card end-->
+          <!-- card -->
+
+          <!-- card end-->
+        </div>
+        <center>
+          
+          <a href=""><button class="btn btn-primary rounded view">
+            View more <span class="material-icons"> trending_flat </span>
+          </button></a>
+        </center>
+      </div>
+    </section>
+    <section class="sp">
+      <div class="container">
+        <h1 class="sec-title">New blogs</h1>
+        <div class="grid-3">
+          <!-- card -->
+          {% for post in newblog %}
+          <a href="{% url 'userapp:blogdetails' post.id %}">
+            <div class="card">
+              <div class="post-img">
+                {% if post.image %}
+                <img src="{{post.image.url}}" alt="" />
+                {% else %}
+                <h1>No image available</h1>
+                {% endif %}
+                <div class="tag">{{post.author_name.username}}</div>
+              </div>
+              <div class="card-content">
+                <h3>
+                  {{post.post_title}}
+                </h3>
+                <div class="author">
+                  <div class="profile-pic">
+                    {% if post.author_name.userdetails.user_img %}
+                    <img src="{{post.author_name.userdetails.user_img.url}}" style="height: 100%;" alt="" />
+                    {% endif %}
+                  </div>
+                  <div class="details">
+                    <p>{{post.author_name.first_name}}</p>
+                    <small>{{post.time|timezone:post.time_zone|date:"F j, Y H:i"}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          <!-- card end-->
+          <!-- card -->
+          </div>
+        <center>
+          <a href=""><button class="btn btn-primary rounded view">
+            View more <span class="material-icons"> trending_flat </span>
+          </button></a>
+        </center>
+      </div>
+    </section>
+    
+    <script src="url.js" id="url"></script>
+  </main>
+  </body>
+</html>
+{{ redirect_to_login_immediately }}
+
+{% endblock %}
+

@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+    <title>Document</title>
+     <!-- Add any additional styles here -->
+  
+  </head>
+
+  <body>
+
+      <!-- Display search results or other content here -->
+     
+      {% if blogs %}
+    <main class="sp">
+        <section class="sp">
+            <div class="container">
+                <h1 class="sec-title">Search Results</h1>
+                <div class="grid-3">
+                    {% for blog in blogs %}
+                        <a href="{% url 'userapp:blogdetails' blog.id %}">
+                            <div class="card">
+                                <div class="post-img">
+                                    {% if blog.image %}
+                                        <img src="{{blog.image.url}}" alt="" />
+                                    {% else %}
+                                        <h1>No image to display</h1>
+                                    {% endif %}
+                                    <div class="tag">{{blog.author_name}}</div>
+                                </div>
+                                <div class="card-content">
+                                    <h3>{{blog.post_title}}</h3>
+                                    <div class="author">
+                                        <div class="profile-pic">
+                                            {% if blog.author_name.userdetails.user_img %}
+                                                <img src="{{blog.author_name.userdetails.user_img.url}}" style="height: 100%;" alt="" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="details">
+                                            <p>{{blog.author_name.first_name}}</p>
+                                            <small>{{ blog.time|timezone:blog.time_zone|date:"F j, Y H:i" }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+  
+{% else %}
+<br>
+<center><h1>No Blog Found</h1></center>
+{% endif %}
+
+
+    <footer>
+      <div class="container">
+        <div class="grid-4">
+          <div class="logo f-logo">
+            <i class="fa-brands fa-blogger"></i>
+          </div>
+          <div class="link">
+            <h2>Quick link</h2>
+            <div class="q-link">
+              <a href="#">Home</a>
+              <a href="#">VirtualSpace</a>
+              <a href="#">Unsubscribe</a>
+            </div>
+          </div>
+          <div class="link">
+            <h2>Top cetagory</h2>
+            <div class="q-link">
+              <a href="#">Home</a>
+              <a href="#">VirtualSpace</a>
+              <a href="#">Unsubscribe</a>
+            </div>
+          </div>
+          <div class="news-signup">
+            <h2>Subscribe</h2>
+            <div class="newsletter">
+              <form method="POST">
+                <input
+                  type="email"
+                  name="email"
+                  maxlength="100"
+                  placeholder="Enter your email"
+                  required=""
+                  id="id_email"
+                />
+                <button class="btn btn-primary">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="share">
+          <div class="social">
+            <a href="#">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="url.js" id="url"></script>
+  </body>
+</html>
+
+<!-- <style>
+    body {
+        background-image: url(https://img.freepik.com/free-photo/defocused-dry-autumn-leaves-nature_23-2150708277.jpg);
+        background-size: cover;
+    }
+
+    h1 {
+        color: white;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+</style>
+<body>
+    <div class="container"><br>
+        <div class="jumbotron">
+            <div class="row justify-content-center">
+                {% for blogpost in blogposts %}
+                <div class="col-md-6">
+                    <div class="card card-body">
+                        <h1> Welcome {{user}}</h1>
+                        <div class="row">
+                            
+                            <div class="col-md-8">
+                                <h4 style="text-decoration: underline;">Autor name: {{blogpost.author_name}}</h4>
+                                <h5>Post Type: {{blogpost.post_type}}</h5>
+                                <h5>Post title: {{blogpost.post_title}}</h5>
+                                <h5>Sub title: {{blogpost.sub_title}}</h5>
+                                <h5>Posted on: {{blogpost.time}}</h5>
+                                <hr>
+                            <center><p>{{blogpost.description}}</p><hr></center>
+                            </div>
+                            <div class="col-md-4">
+                                {% if blogpost.image %}
+                                <img src="{{blogpost.image.url}}" height="150px" width="150px" alt="Blog Post Image">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {{ redirect_to_login_immediately }}
+
+</body>
+{% endblock %} -->
