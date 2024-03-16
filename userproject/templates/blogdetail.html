@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+{% load static %}
+{% load tz %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/css.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <title>Document</title>
+    <style>
+    #like-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: #262626;
+    }
+    
+    #heart-icon {
+      font-size: 1.2em;
+      margin-right: 4px;
+      transition: color 0.3s;
+    }
+    
+    #like-button.liked #heart-icon {
+      color: #ed4956; /* Instagram like button color */
+    }
+    </style>
+  </head>
+ 
+  <body>
+
+ 
+    <main>
+      <div class="container">
+        <div class="layout">
+          <!-- left layout -->
+          <div class="left">
+            <div class="page-top">
+              <div class="top flex">
+                <div class="page-name">
+                  <a href="#" class="learn">
+                    <span class="material-icons"> keyboard_return </span> Go
+                    back
+                  </a>
+                  <h1>Blog</h1>
+                </div>
+              </div>
+            </div>
+
+            <center>
+              <div class="typo">
+                <h1 class="title blog-title">
+                  {{post.post_title}}
+                </h1>
+                <h4>by <a href="{% url 'userapp:author' post.author_name.id %}">{{ post.author_name.username }}</a></h4>
+
+                <div class="timeline">
+                  <div class="track">
+                    <i class="uil uil-clock"></i>
+                    <p class="time">{{ post.time|timezone:post.time_zone|date:"F j, Y H:i" }}</p>
+                  </div>
+                  <div class="track">
+                    <i class="uil uil-users-alt"></i>
+                    <p class="view-count">{{post.view_count}}</p>
+                  </div>
+                  <div class="track">
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'userapp:bookmark' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-info">                                
+                                {% if request.user in post.bookmark.all %}
+                                    <i class="fa-solid fa-bookmark"></i>
+                                    <p class="bookmark">Remove Bookmark</p>
+                                {% else %}
+                                    <i class="uil uil-bookmark-full"></i>
+                                    <p class="bookmark">Bookmark</p>
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                </div>
+              </div>
+            </center>
+            <section class="mt">
+              <div class="container">
+                <!-- blog post -->
+                <div class="blog-post">
+                  <div class="post-img blog-img">
+                    {% if post.image %}
+                    <img src="{{post.image.url}}" alt="" style="height : 50%">
+                    {% else %}
+                    <h1>No image available</h1>
+                    {% endif %}
+                  </div>
+                  <div class="blog-post-content">
+                    <p>
+                       {{post.description}}
+                    </p>
+                    <div class="blog-tags">
+
+                      {% for i in allblog %}
+                      <div class="tag">
+                        <a style="color:whitesmoke;" href="{% url 'userapp:blogdetails' i.id %}">#{{i.post_title}}</a>
+                      </div>
+                      {% endfor %}
+                      <!-- <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div> -->
+                    </div>
+                    <div class="social-share">
+                      <div class="reactions">
+                        <form action="{% url 'userapp:likes' id=post.id %}" method="POST">
+                          {% csrf_token %}
+                          <div class="likes">
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'userapp:likes' id=post.id %}" method="POST">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="post_id" value="{{post.id}}">
+                                  {% if post_is_liked %}
+                                    <button type="submit">
+                                    <h2><i class="fa-solid fa-heart" style="height: auto; color: #ed4956;"></i>&nbsp;<span>&nbsp;{{no_of_likes}}</span></h2>
+                                    </button>
+                                  {% else %}
+                                    <button type="submit"  >
+                                    <h2><i class="uil uil-heart" style="height: auto"  ></i> <span>&nbsp;{{no_of_likes}}</span></h2>
+                                    </button>
+                                  {% endif %}
+                                </form>
+                            {% else %}
+                              <a class="track" href="{% url 'userapp:login' %}">
+                                <i class="uil uil-heart"></i> <span>{{no_of_likes}}</span>
+                              </a><br>
+                          {% endif %}
+                        </div>
+                        </form>
+                        <div class="total-comments">
+                          <i class="uil uil-comment-alt" style="height: auto;"></i>
+                          <span>
+                            <h2>{{total_comment}}</h2>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="share">
+                        <div class="social">
+                          <a href="{{post.author_name.facebook}}">
+                            <i class="fa-brands fa-facebook-f"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-instagram"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-twitter"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- comments -->
+                    {% for comment in usercomments %}
+                    <div class="user-comment">
+                      <div class="author">
+                        <div class="profile-pic">
+                          {% if comment.user.userdetails.user_img %}
+                          <img src="{{ comment.user.userdetails.user_img.url }}" style="height: 100%;" alt="Author Profile Picture" />
+                          {% else %}
+                          <img src ="{% static 'images/image.png' %}">
+                          {% endif %}
+                        </div>
+                        <div class="details">
+                          <p>{{comment.user.username}}</p>
+                          <small>{{comment.date|timezone:comment.time_zone|date:"F j, Y H:i"}}</small>
+                        </div>
+                      </div>
+                      <div class="comment-sec-main">
+                        <div class="comment-sec">
+                          <div class="comment">
+                            <p>{{ comment.content }}</p>
+                          </div>
+                          <div class="rep"><br>
+        
+                            <p class="d-inline-flex gap-1">
+                                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#replyBox{{ comment.sno }}" aria-expanded="false" aria-controls="replyBox{{ comment.sno }}">
+                                    Reply
+                                </button>
+                            </p>
+                            
+                            <div class="collapse" id="replyBox{{ comment.sno }}">
+                                <div class="card card-body">
+                                    <div class="ml-4">
+                                        <div class="comment-box" >
+                                            <h3>Leave a reply to this post</h3>
+                                            <p>Your email address will not be published. Required fields are marked<span>*</span></p>
+                                            <form action="{% url 'userapp:blogdetails' post.id %}" method="POST">
+                                                {% csrf_token %}
+                                                {{ form.content.label_tag }}
+                                                {{ form.content }}
+                                                <input type="hidden" name="postSno" value="{{ post.id }}">
+                                                <input type="hidden" name="parentSno" value="{{ comment.sno }}">
+                                                <button class="btn btn-dark" type="submit">Post reply</button>
+                                            </form>
+                                        </div>
+                                        <!-- Display replies for this comment -->
+                                       
+                                        {% for reply_comment in comment.replies.all %}
+                                        <div class="user-comment">
+                                            {% if reply_comment.parent %}
+                                                <p>{{ reply_comment.user.username }} replied on {{ reply_comment.date|timezone:reply_comment.time_zone|date:"F j, Y H:i" }}</p>
+                                            {% endif %}
+                                            <p>{{ reply_comment.content }}</p>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- user comment -->
+                    
+                    <!-- user comment end -->
+                  
+                    <div class="comment-box">
+                      <h3>Leave a new comment to this post</h3>
+                      <p>Your email address will not be published. Required fields are marked<span>*</span></p>
+                      <form action="{% url 'userapp:blogdetails' post.id %}" method="POST">
+                          {% csrf_token %}
+                          {{ form.content.label_tag }}
+                          {{ form.content }}
+                          <input type="hidden" name="postSno" value="{{ post.id }}">
+                          <input type="hidden" name="parentSno" value="">
+                          <button class="btn btn-dark" type="submit">Post comment</button>
+                      </form>
+                  </div>
+              </div>
+            </section>
+          </div>
+          <!-- left layout end -->
+
+          <!-- right layout -->
+          <div class="right">
+            <div class="block">
+              <h2 class="title2">Most recent</h2>
+              {% for post in recentposts %}
+              <div class="recent-post">
+                <div class="rounded-img">
+                  {% if post.image %}
+                  <img src="{{post.image.url}}" alt="" />
+                  {% else %}
+                  <h5>No image</h5>
+                  {% endif %}
+                </div>
+                <div class="recent-content">
+                  <h5>{{ post.description|linebreaksbr|truncatewords_html:20 }}</h5>
+                  <a class="learn" href="{% url 'userapp:blogdetails' post.id %}"
+                  >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
+              </div>
+              {% endfor %}
+              
+
+            <div class="block r-blog">
+              <h2 class="title2">Related Blogs</h2>
+              <!-- card -->
+              {% for i in relatedpost %}
+              <a href="{% url 'userapp:blogdetails' i.id %}">
+                <div class="card">
+                  <div class="post-img">
+                    {% if i.image %}
+                    <img src="{{i.image.url}}" alt="" />
+                    {% else %}
+                    <h3>No image available</h3>
+                    <div class="tag">Tag name</div>
+                    {% endif %}
+                  </div>
+                  <div class="card-content">
+                    <h3>
+                      {{i.title}}
+                    </h3>
+                    <div class="author">
+                      <div class="profile-pic">
+                        {% if i.author_name.userdetails.user_img %}
+                        <img src="{{i.author_name.userdetails.user_img.url }}" alt="" />
+                        {% endif %}
+                        
+                      </div>
+                      <div class="details">
+                        <p>{{i.author_name}}</p>
+                        <small>{{i.time}}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+              <!-- card end-->
+
+              <!-- card -->
+              
+              <!-- card end-->
+            </div>
+            <div class="block">
+              <h2 class="title2">Top category</h2>
+              {% for data in topposts %}
+              <div class="card">
+                <h3>
+                 {{data.post_title}}
+                </h3>
+                <p>
+                  {{data.description|linebreaksbr|truncatewords_html:20}}
+                </p>
+                <a class="learn" href="{% url 'userapp:blogdetails' data.id %}"
+                  >Learn more
+                  <span class="material-icons"> trending_flat </span></a
+                >
+              </div>
+              {% endfor %}
+            </div>
+            <div class="block">
+              <h2 class="title2">Top Tags</h2>
+              <div class="blog-tags">
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+              </div>
+            </div>
+          </div>
+          <!-- right layout end -->
+        </div>
+      </div>
+    </main>
+    
+    <script src="../url.js" id="url"></script>
+  </body>
+</html>
+
+{% endblock %}

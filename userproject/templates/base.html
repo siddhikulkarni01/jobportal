@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'js/url.js' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/css.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+</head>
+<style>
+.navbar {
+    /* Set background color to dark */
+    height: 90px; /* Adjust the height as needed */
+    
+}
+ .nav-link {
+    color: white !important; /* Set text color to white */
+    font-size: 18px; /* Adjust font size as needed */
+}
+
+.navbar-brand {
+    color: white !important; /* Set text color to white */
+    font-size: 24px; /* Adjust font size as needed */
+}
+
+.circular-image {
+    border-radius: 50%;
+    overflow: hidden;
+    height: 60px; /* Adjust as needed to match the navbar height */
+    width: 60px; /* Adjust as needed to match the navbar width */
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Ensure the nav-link takes full height */
+}
+
+
+.navbar-nav
+{
+    display: flex;
+    align-items: center;
+    height: 100%; /* Ensure the nav-link takes full height */
+    padding-right: 40px;
+} 
+
+.navbar-item {
+        margin-right: 30px; /* Adjust the value as needed */
+        margin-block-start: auto;
+    }
+
+.ml-auto {
+        margin-left: auto;
+        
+    }
+
+</style>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container">  
+      <ul class="nav navbar">
+       
+      <h2>  <a class="navbar-brand" href="#">VirtualSpace</a></h2>
+        {% if user.is_authenticated %}
+              <li class="nav-item">
+                <p><a class="nav-link" ></a></p>
+              </li>
+              <li class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:home' %}">Home</a></p>
+              </li>
+                           
+              <li class="nav-item">
+                <p><a class="nav-link" href="{% url 'jobpostdata:jobdetails' %}">JobPost</a></p>
+              </li>
+              <li  class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:blog' %}">Blog</a></p>
+              </li>
+              <li  class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:profile' %}">Hello {{request.user}}</a></p>
+              </li>
+              <li  class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:likedata' %}">Likes</a></p>
+              </li>
+              <li  class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:bookmarkdata' %}">Bookmarks</a></p>
+              </li>
+              <li  class="nav-item">
+                <p><a class="nav-link" href="{% url 'userapp:logout' %}">Logout</a></p>
+              </li>
+              
+            
+              <!-- <form class="form-inline my-2 my-lg-0">
+        
+                <a href="{% url 'userapp:search' %}" class="btn btn-success">Search</a>
+              </form> -->
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                    {% if request.user.userdetails.user_img %}
+                        <div class="circular-image justify-content-right">
+                            <img src="{{ request.user.userdetails.user_img.url }}" alt="User Image" class="circular-image">
+                        </div>
+                    {% else %}
+                        <div class="circular-image justify-content-right">
+                            <img src="{% static 'images/image.png' %}" alt="Default Image" class="circular-image">
+                        </div>
+                    {% endif %}
+                </a>
+                
+              </li>
+          </ul>
+          
+          
+          <form method="get" action="{% url 'userapp:search' %}" class="d-flex ml-auto">
+            <input type="text" name="searched" placeholder="Search for blogs here" value="{{ searched }}" class="form-control" style="width: 190px;">
+            <button type="submit" class="btn btn-dark ms-2">Search</button>
+        </form>
+        
+        {% else %}
+        <ul class="nav navbar">
+              <li class="nav-item">
+                <a class="nav-link" ></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'userapp:registration' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'userapp:login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+              </li>
+              
+          {% endif %}
+
+      </ul>
+   
+
+    </div>
+    </nav>
+    
+
+      <a href="{% url 'userapp:home' %}" class="learn">
+        <span class="material-icons"> keyboard_return </span> Go back
+      </a>
+
+             
+      {% block content %}
+
+      {% endblock %}
+    
+      <footer>
+        <div class="container">
+          <div class="grid-4">
+            
+            <div class="link">
+              <h2>Quick link</h2>
+              <div class="q-link">
+                <a href="{% url 'userapp:home' %}">Home</a>
+                <a href="">About</a>
+                <a href="">All Post</a>
+              </div>
+            </div>
+            <div class="link">
+              <h2>Your Favourites</h2>
+              <div class="q-link">
+                <a href="{% url 'userapp:likedata' %}">Likes</a>
+                <a href="{% url 'userapp:bookmarkdata' %}">Bookmarks</a>
+              </div>
+            </div>
+            <div class="link">
+              <h2>Top cetagory</h2>
+              <div class="q-link">
+                <a href="{% url 'userapp:home' %}">Home</a>
+                <a href="#">VirtualSpace</a>
+                <a href="#">Unsubscribe</a>
+              </div>
+            </div>
+            
+            <div class="news-signup">
+              <h2>Subscribe</h2>
+              <div class="newsletter">
+                <form action="{% url 'userapp:home' %}" method="POST">
+                  {% csrf_token %}
+                  <input
+                    type="email"
+                    name="email"
+                    maxlength="100"
+                    placeholder="Enter your email"
+                    required=""
+                    id="id_email"
+                  />
+                  <button class="btn btn-primary">Subscribe</button>
+                </form>
+              </div>
+          <div class="share">
+            <div class="social">
+              <a href="#">
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="#">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a href="#">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer> 
+  
+</body>
+</html>

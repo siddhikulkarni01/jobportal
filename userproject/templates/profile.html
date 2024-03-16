@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<!-- {{obj.username}}
+{for data in obj} -->
+<body>
+<style>
+    .circular-image1 {
+    border-radius: 50%;
+    height: 324px; /* Maintain the original height */
+    width: 300px; /* Maintain the original width */
+    object-fit: cover; /* Ensure the image covers the entire container */
+    display: block; /* Ensure the image is a block element */
+    margin: 0 auto; /* Center the image horizontally (optional) */
+}
+</style>
+   <br>
+
+    {% if userprofile %}
+        <div class="container">
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-body">
+                            <h2>{{ request.user.username }}'s profile</h2><hr>
+                            <p>Email: {{ request.user.email }}</p>
+                            <p>First Name: {{ request.user.first_name }}</p>
+                            <p>Last Name: {{ request.user.last_name }}</p>
+                            <p>Address: {{ userprofile.address }}</p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="{% url 'userapp:update' %}" class="btn btn-dark" style="width: 100%;">Update</a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{% url 'jobpostdata:appliedjobs' %}" class="btn btn-dark" style="width: 100%;">Applied Jobs</a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{% url 'userapp:home' %}" class="btn btn-primary" style="width: 100%;">Back</a>
+                                </div>
+                        
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-body">
+                            <a style="font-size: 18px; height: 50px; width: 50px; display: inline-block; background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRsMtCpK_NaiJKAeCI6XJCbCp8MdbC3bLual4Hf3Fl_w&s) no-repeat center center; background-size: cover;" href="{% url 'userapp:blogpost' %}"></a>
+
+                            <div class="circular-image1">
+                                {% if userprofile.user_img %}
+                                    <img src="{{ userprofile.user_img.url }}" alt="User Image" height="300px" width="300px" class="circular-image1">
+                                {% else %}
+                                    <img src="{% static 'images/image.png' %}" alt="Default Image" style="height: 324px; width: 300px;" class="circular-image1">
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <a href="{{ userprofile.facebook }}">
+                <img src="{% static 'images/facebook.png' %}" alt="Facebook" style="height: 50px; width: 50px;">
+                </a>&nbsp;&nbsp;
+                 <a href="{{ userprofile.instagram }}">
+                <img src="{% static 'images/instagram.png' %}" style="height: 50px; width: 50px;">
+                </a> &nbsp;&nbsp;
+                <a href="{{ userprofile.twitter }}">
+                <img src="{% static 'images/twitter.png' %}" style="height: 50px; width: 50px;">
+                </a>&nbsp;&nbsp;
+                <a href="{{ userprofile.linkedin }}">
+                <img src="{% static 'images/linkedin.png' %}" style="height: 50px; width: 50px;">
+                </a>      
+        </div>
+            
+
+{% endif %}
+</body>
+
+
+
+
+{% endblock %}

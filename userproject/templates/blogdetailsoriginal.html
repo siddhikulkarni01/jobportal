@@ -1,0 +1,439 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/css.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <title>Document</title>
+  </head>
+  <body>
+    
+    <main>
+      <div class="container">
+        <div class="layout">
+          <!-- left layout -->
+          <div class="left">
+            <div class="page-top">
+              <div class="top flex">
+                <div class="page-name">
+                  <a href="#" class="learn">
+                    <span class="material-icons"> keyboard_return </span> Go
+                    back
+                  </a>
+                  <h1>Blog</h1>
+                </div>
+              </div>
+            </div>
+
+            <center>
+              <div class="typo">
+                <h1 class="title blog-title">
+                  {{post.post_title}}
+                </h1>
+                <h4>by <a href="{% url 'userapp:author' post.author_name.id %}">{{ post.author_name.username }}</a></h4>
+                <div class="timeline">
+                  <div class="track">
+                    <i class="uil uil-clock"></i>
+                    <p class="time">{{post.time}}</p>
+                  </div>
+                  <div class="track">
+                    <i class="uil uil-users-alt"></i>
+                    <p class="view-count">{{post.view_count}}</p>
+                  </div>
+                  <div class="track">
+                    <form action="" method="POST">
+                      <button type="submit" class="btn btn-info">
+                        <i class="uil uil-bookmark-full"></i>
+                        <p class="bookmark">Bookmark</p>
+                        <!-- REMOVE BOOKMARK
+                          <i class="fa-solid fa-bookmark"></i> -->
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </center>
+            <section class="mt">
+              <div class="container">
+                <!-- blog post -->
+                <div class="blog-post">
+                  <div class="post-img blog-img">
+                    {% if post.image %}
+                    <img src="{{post.image.url}}" alt="" />
+                    {% else %}
+                    <h1>No image available</h1>
+                    {% endif %}
+                  </div>
+                  <div class="blog-post-content">
+                   <h5> {{post.description}}</h5>
+                    <div class="blog-tags">
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                      <div class="tag">Tag content</div>
+                    </div>
+                    <div class="social-share">
+                      <div class="reactions">
+                        <div class="likes">
+                          <i class="uil uil-heart"></i> <span>200</span>
+                        </div>
+                        <div class="total-comments">
+                          <i class="uil uil-comment-alt"></i>
+                          <span>10</span>
+                        </div>
+                      </div>
+                      <div class="share">
+                        <div class="social">
+                          <a href="#">
+                            <i class="fa-brands fa-facebook-f"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-instagram"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                          </a>
+                          <a href="#">
+                            <i class="fa-brands fa-twitter"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- comments -->
+                    {% for comment in usercomments %}
+    <div class="user-comment">
+      <div class="author">
+        <div class="profile-pic">
+          {% if comment.user.userdetails.user_img %}
+          <img src="{{ comment.user.userdetails.user_img.url }}" style="height: 100%;" alt="Author Profile Picture" />
+          {% else %}
+          <img src ="{% static 'images/image.png' %}">
+          {% endif %}
+        </div>
+        <div class="details">
+          <p>{{comment.author_name}}</p>
+          <small>June 20, 2023</small>
+        </div>
+    </div>
+   
+        <div class="comment-sec-main">
+            <div class="comment-sec">
+                <div class="comment">
+                    <p>{{ comment.content }}</p>
+                </div>
+                <div class="rep"><br>
+        
+                    <p class="d-inline-flex gap-1">
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#replyBox{{ comment.sno }}" aria-expanded="false" aria-controls="replyBox{{ comment.sno }}">
+                            Reply
+                        </button>
+                    </p>
+                    
+                    <div class="collapse" id="replyBox{{ comment.sno }}">
+                        <div class="card card-body">
+                            <div class="ml-4">
+                                <div class="comment-box">
+                                    <h3>Leave a new comment to this post</h3>
+                                    <p>Your email address will not be published. Required fields are marked<span>*</span></p>
+                                    <form action="{% url 'userapp:blogdetails' post.id %}" method="POST">
+                                        {% csrf_token %}
+                                        {{ form.content.label_tag }}
+                                        {{ form.content }}
+                                        <input type="hidden" name="postSno" value="{{ post.id }}">
+                                        <input type="hidden" name="parentSno" value="{{ comment.sno }}">
+                                        <button class="btn btn-dark" type="submit">Post comment</button>
+                                    </form>
+                                </div>
+                                <!-- Display replies for this comment -->
+                               
+                                {% for reply_comment in comment.replies.all %}
+                                <div class="user-comment">
+                                    {% if reply_comment.parent %}
+                                        <p>{{ reply_comment.user.username }} replied on {{ reply_comment.date|date:"F j, Y" }}</p>
+                                    {% endif %}
+                                    <p>{{ reply_comment.content }}</p>
+                                </div>
+                                {% endfor %}
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+  
+                <div class="comment-box">
+                    <h3>Leave a new comment to this post</h3>
+                    <p>Your email address will not be published. Required fields are marked<span>*</span></p>
+                    <form action="{% url 'userapp:blogdetails' post.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ form.content.label_tag }}
+                        {{ form.content }}
+                        <input type="hidden" name="postSno" value="{{ post.id }}">
+                        <input type="hidden" name="parentSno" value="">
+                        <button class="btn btn-dark" type="submit">Post comment</button>
+                    </form>
+                </div>
+          <!-- left layout end -->
+
+          <!-- right layout -->
+          <div class="right">
+            <div class="block">
+              <h2 class="title2">Most recent</h2>
+              <div class="recent-post">
+                <div class="rounded-img">
+                  <img src="../images/post.png" alt="" />
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    A blog title and other stuffs will add here, also we can
+                    incluse.
+                  </h3>
+                  <a class="learn" href="#"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
+              </div>
+              <div class="recent-post">
+                <div class="rounded-img">
+                  <img src="../images/post.png" alt="" />
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    A blog title and other stuffs will add here, also we can
+                    incluse.
+                  </h3>
+                  <a class="learn" href="#"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
+              </div>
+              <div class="recent-post">
+                <div class="rounded-img">
+                  <img src="../images/post.png" alt="" />
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    A blog title and other stuffs will add here, also we can
+                    incluse.
+                  </h3>
+                  <a class="learn" href="#"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="block r-blog">
+              <h2 class="title2">Related Blogs</h2>
+              <!-- card -->
+              <a href="#">
+                <div class="card">
+                  <div class="post-img">
+                    <img src="../images/post.png" alt="" />
+                    <div class="tag">Tag name</div>
+                  </div>
+                  <div class="card-content">
+                    <h3>
+                      A blog title and other stuffs will add here, also we can
+                      include.
+                    </h3>
+                    <div class="author">
+                      <div class="profile-pic">
+                        <img src="../images/author.svg" alt="" />
+                      </div>
+                      <div class="details">
+                        <p>Author name</p>
+                        <small>June 20, 2022</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <!-- card end-->
+
+              <!-- card -->
+              <a href="#">
+                <div class="card">
+                  <div class="post-img">
+                    <img src="../images/post.png" alt="" />
+                    <div class="tag">Tag name</div>
+                  </div>
+                  <div class="card-content">
+                    <h3>
+                      A blog title and other stuffs will add here, also we can
+                      include.
+                    </h3>
+                    <div class="author">
+                      <div class="profile-pic">
+                        <img src="../images/author.svg" alt="" />
+                      </div>
+                      <div class="details">
+                        <p>Author name</p>
+                        <small>June 20, 2023</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <!-- card end-->
+            </div>
+            <div class="block">
+              <h2 class="title2">Top category</h2>
+              <div class="card">
+                <h3>
+                  A blog title and other stuffs will add here, lso we can
+                  incluse.
+                </h3>
+                <p>
+                  Lorem ipsum began as scrambled, nonsensical Latin derived from
+                  Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
+                </p>
+                <a class="learn" href="#"
+                  >Learn more
+                  <span class="material-icons"> trending_flat </span></a
+                >
+              </div>
+              <div class="card">
+                <h3>
+                  A blog title and other stuffs will add here, lso we can
+                  incluse.
+                </h3>
+                <p>
+                  Lorem ipsum began as scrambled, nonsensical Latin derived from
+                  Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
+                </p>
+                <a class="learn" href="#"
+                  >Learn more
+                  <span class="material-icons"> trending_flat </span></a
+                >
+              </div>
+              <div class="card">
+                <h3>
+                  A blog title and other stuffs will add here, lso we can
+                  incluse.
+                </h3>
+                <p>
+                  Lorem ipsum began as scrambled, nonsensical Latin derived from
+                  Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
+                </p>
+                <a class="learn" href="#"
+                  >Learn more
+                  <span class="material-icons"> trending_flat </span></a
+                >
+              </div>
+            </div>
+            <div class="block">
+              <h2 class="title2">Top Tags</h2>
+              <div class="blog-tags">
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+                <div class="tag">Tag content</div>
+                <div class="tag">Tag</div>
+              </div>
+            </div>
+          </div>
+          <!-- right layout end -->
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="grid-4">
+        
+          <div class="link">
+            <h2>Quick link</h2>
+            <div class="q-link">
+              <a href="#">Home</a>
+              <a href="#">VirtualSpace</a>
+              <a href="#">Unsubscribe</a>
+            </div>
+          </div>
+          <div class="link">
+            <h2>Top cetagory</h2>
+            <div class="q-link">
+              <a href="#">Home</a>
+              <a href="#">VirtualSpace</a>
+              <a href="#">Unsubscribe</a>
+            </div>
+          </div>
+          <div class="news-signup">
+            <h2>Subscribe</h2>
+            <div class="newsletter">
+              <form method="POST">
+                <input
+                  type="email"
+                  name="email"
+                  maxlength="100"
+                  placeholder="Enter your email"
+                  required=""
+                  id="id_email"
+                />
+                <button class="btn btn-primary">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="share">
+          <div class="social">
+            <a href="#">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="#">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../url.js" id="url"></script>
+  </body>
+</html>
+{% endblock %}

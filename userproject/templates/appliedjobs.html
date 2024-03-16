@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<body><br>
+  <div class="container">
+    <div class="jumbotron">
+      {% for i in userjobs %}
+        <div class="row">
+          <div class="col-md-5">
+            <div class="card card-body">
+              <h1>Applied jobs</h1>
+
+              <p>Job Title: {{ i.jobtitle }}</p>
+              <p>First Name: {{ i.first_name }}</p>
+              <p>Last Name: {{ i.last_name }}</p>
+              <p>Email: {{ i.email }}</p>
+              <p>Phone: {{ i.phone }}</p>
+              <p>PG: {{ i.pg }}</p>
+              <p>Degree: {{ i.degree }}</p>
+              <p>School: {{ i.school }}</p><br>
+            
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="card card-body">
+              
+                {% if i.resume %}  
+                  <img src="{{ i.resume.url }}" alt="Resume Image" style="width: 300px; height: 400px;">
+                {% else %}
+                  <h4>Resume not available</h4>
+                {% endif %}
+                </div>
+              </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+{% endblock %}
