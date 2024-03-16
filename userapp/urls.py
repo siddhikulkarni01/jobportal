@@ -1,7 +1,8 @@
 from django.urls import path
 from userapp import views
-
+from userapp.views import *
 app_name = 'userapp'
+
 
 urlpatterns = [
     path('',views.index,name="index"),
@@ -21,5 +22,6 @@ urlpatterns = [
     path("likedata/",views.likesdata,name="likedata"),
     path('bookmark/<int:id>/', views.bookmark, name='bookmark'),
     path("bookmarkdata/",views.bookmardata,name="bookmarkdata"),
-
+    path("forgotpassword/",views.forgotpassword,name="forgotpassword"),
+    
 ]

@@ -6,6 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
 from jobpostdata.models import Jobdata
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.views.generic import UpdateView
+
+
 # Create your views here.
 
 def registration(request):
@@ -276,4 +285,9 @@ def bookmardata(request):
     bk =  blogpost.objects.filter(bookmark=request.user)
 
     return render(request,"bookmark.html",{"bk":bk})
+
+def forgotpassword(request):
+
+    return render(request,"forgotpassword.html")
+
 

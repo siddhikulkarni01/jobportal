@@ -5,7 +5,7 @@ from jobpostdata.models import applyjobs
 class applyuser(forms.ModelForm):
     class Meta:
         model = applyjobs
-        fields = ["jobtitle","first_name","last_name","email","phone","pg","degree","PU","school","resume"]
+        fields = ["first_name","last_name","email","phone","pg","degree","PU","school","resume"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

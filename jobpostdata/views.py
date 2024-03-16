@@ -29,30 +29,18 @@ def job_display(request, pk):
 
 
 @login_required(login_url='userapp:login')
-def applyuserapp(request):
-    jobdata = Jobdata.objects.all()
+ # Assuming applyuser is a Django form defined in forms.py
 
+def applyuserapp(request, pk):
+    instance = get_object_or_404(applyjobs, pk=pk)
     if request.method == 'POST':
-        formuser = applyuser(request.POST, request.FILES)
-        formuser.instance.user = request.user  # Assign the current user to the job application
-
-        # Extract the selected jobtitle from the form data
-        selected_jobtitle_id = request.POST.get('jobtitle')
-        
-        # Set the jobtitle in the instance based on the selected jobtitle ID
-        if not formuser.instance.jobtitle:
-            # Set a default job title based on some logic or condition
-            default_jobtitle = Jobdata.objects.get(name='jobtitle')
-            formuser.instance.jobtitle = default_jobtitle
-            
-        if formuser.is_valid():
-            formuser.save()
-            return redirect('userapp:ty')
+        form = applyuser(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('thank_you')  # Redirect to a thank you page upon successful update
     else:
-        formuser = applyuser()
-
-    return render(request, "apply.html", {"formuser": formuser, "jobdata": jobdata})
-
+        form = applyuser(instance=instance)
+    return render(request, 'applyjob_form.html', {'form': form,'instance':instance})
 
 
 def appliedjobs(request):
@@ -66,3 +54,5 @@ def appliedjobs(request):
 # bk =  blogpost.objects.filter(bookmark=request.user)
 
 #     return render(request,"bookmark.html",{"bk":bk})
+
+

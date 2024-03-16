@@ -58,17 +58,7 @@
         <div class="layout">
           <!-- left layout -->
           <div class="left">
-            <div class="page-top">
-              <div class="top flex">
-                <div class="page-name">
-                  <a href="#" class="learn">
-                    <span class="material-icons"> keyboard_return </span> Go
-                    back
-                  </a>
-                  <h1>Blog</h1>
-                </div>
-              </div>
-            </div>
+            
 
             <center>
               <div class="typo">
@@ -303,7 +293,7 @@
                 <div class="card">
                   <div class="post-img">
                     {% if i.image %}
-                    <img src="{{i.image.url}}" alt="" />
+                    <img src="{{i.image.url}}" alt="" style="height:100%;"/>
                     {% else %}
                     <h3>No image available</h3>
                     <div class="tag">Tag name</div>
@@ -316,7 +306,7 @@
                     <div class="author">
                       <div class="profile-pic">
                         {% if i.author_name.userdetails.user_img %}
-                        <img src="{{i.author_name.userdetails.user_img.url }}" alt="" />
+                        <img src="{{i.author_name.userdetails.user_img.url }}"  alt="" style="height: 100%;" />
                         {% endif %}
                         
                       </div>
